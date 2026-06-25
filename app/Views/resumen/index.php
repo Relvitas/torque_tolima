@@ -16,7 +16,12 @@
   <div class="tabla-wrap">
     <table>
       <thead>
-        <tr><th>Mes</th><th>Lavadas</th><th>Gratis</th><th style="text-align:right;">Total generado</th></tr>
+        <tr>
+          <th>Mes</th><th>Lavadas</th><th>Gratis</th>
+          <th style="text-align:right;">Total generado</th>
+          <th style="text-align:right;">Egresos</th>
+          <th style="text-align:right;">Utilidad neta</th>
+        </tr>
       </thead>
       <tbody>
         <?php foreach ($porMes as $m):
@@ -29,6 +34,8 @@
             <td><?= (int) $m['cantidad'] ?></td>
             <td><?= (int) $m['gratis'] ?></td>
             <td style="text-align:right;font-weight:700;"><?= e(cop($m['total'])) ?></td>
+            <td style="text-align:right;color:var(--rojo, #dc2626);"><?= e(cop($m['egresos'])) ?></td>
+            <td style="text-align:right;font-weight:700;color:<?= $m['neto'] < 0 ? 'var(--rojo, #dc2626)' : 'var(--verde, #16a34a)' ?>;"><?= e(cop($m['neto'])) ?></td>
           </tr>
         <?php endforeach; ?>
       </tbody>
