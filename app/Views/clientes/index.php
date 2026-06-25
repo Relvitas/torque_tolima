@@ -48,6 +48,10 @@
            href="<?= e(url('/?tel=' . urlencode($c['telefono']))) ?>" title="Registrar lavada para este cliente">
           <i class="fa-solid fa-plus"></i> Lavada
         </a>
+        <a class="btn btn-outline" style="padding:6px 12px;font-size:12px;white-space:nowrap;text-align:center;"
+           href="<?= e(url('/clientes/editar/' . (int) $c['id'])) ?>" title="Editar información del cliente">
+          <i class="fa-solid fa-pen"></i> Editar
+        </a>
         <form method="post" action="<?= e(url('/clientes/eliminar')) ?>"
               onsubmit="return confirm('¿Eliminar este cliente? Se borrará también todo su historial de lavadas. Esta acción no se puede deshacer.');">
           <input type="hidden" name="id" value="<?= (int) $c['id'] ?>" />

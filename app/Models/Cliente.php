@@ -60,6 +60,31 @@ class Cliente extends Model
         return $this->porTelefono($tel);
     }
 
+    /**
+     * Actualiza los datos editables de un cliente y sincroniza los snapshots
+     * del historial de lavadas para que todo quede coherente.
+     * La foto solo se reemplaza si llega una nueva ($foto !== null).
+     */
+    public function actualizar(int $id, array $d, ?string $foto = null): void
+    {
+        if ($foto !== null) {
+            $this->run(
+                'UPDATE clientes SET nombre = ?, telefono = ?, placa = ?, moto = ?, foto = ? WHERE id = ?',
+                [$d['nombre'], $d['telefono'], $d['placa'], $d['moto'], $foto, $id]
+            );
+        } else {
+            $this->run(
+                'UPDATE clientes SET nombre = ?, telefono = ?, placa = ?, moto = ? WHERE id = ?',
+                [$d['nombre'], $d['telefono'], $d['placa'], $d['moto'], $id]
+            );
+        }
+        // Mantiene coherente el historial (telefono/nombre/placa/moto son snapshots).
+        $this->run(
+            'UPDATE lavadas SET telefono = ?, nombre = ?, placa = ?, moto = ? WHERE cliente_id = ?',
+            [$d['telefono'], $d['nombre'], $d['placa'], $d['moto'], $id]
+        );
+    }
+
     /** Incrementa el contador de lavadas (y de gratis si aplica). */
     public function registrarLavadaContador(int $id, bool $gratis): void
     {

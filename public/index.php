@@ -44,6 +44,8 @@ $router->post('/citas/agendar',    [CitaController::class,      'agendar']);
 $router->post('/citas/eliminar',   [CitaController::class,      'eliminar']);
 
 $router->get('/clientes',          [ClienteController::class,   'index']);
+$router->get('/clientes/editar/{id}',[ClienteController::class,  'editar']);
+$router->post('/clientes/actualizar',[ClienteController::class,  'actualizar']);
 $router->post('/clientes/eliminar',[ClienteController::class,   'eliminar']);
 $router->get('/historial',         [HistorialController::class, 'index']);
 $router->post('/historial/eliminar',[HistorialController::class,'eliminar']);
