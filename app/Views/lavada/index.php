@@ -1,3 +1,6 @@
+<?php
+/** @var string $telPrefill @var array $lavadasHoy @var int $totalHoy */
+?>
 <div class="page-title">Registrar lavada</div>
 <form method="post" action="<?= e(url('/lavada/registrar')) ?>" enctype="multipart/form-data">
   <div class="two-col">
@@ -47,3 +50,53 @@
     </div>
   </div>
 </form>
+
+<div class="card">
+  <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
+    <span><i class="fa-solid fa-clock-rotate-left"></i> Lavadas de hoy (<?= count($lavadasHoy) ?>)</span>
+    <span style="font-size:14px; color:var(--verde);">Total: <?= e(cop($totalHoy)) ?></span>
+  </div>
+  <div class="tabla-wrap">
+    <table>
+      <thead>
+        <tr><th>Hora</th><th>Cliente</th><th>Placa</th><th>Moto</th><th>Valor</th><th>Pago</th></tr>
+      </thead>
+      <tbody>
+        <?php foreach ($lavadasHoy as $h): ?>
+          <tr>
+            <td style="font-size:12px;color:var(--gris);"><?= e(date('H:i', strtotime($h['creado_en']))) ?></td>
+            <td>
+              <strong><?= e($h['nombre']) ?></strong><br>
+              <small style="color:var(--gris);"><?= e($h['telefono']) ?></small>
+            </td>
+            <td><?= e($h['placa'] ?: '—') ?></td>
+            <td style="font-size:12px;"><?= e($h['moto'] ?: '—') ?></td>
+            <td style="font-weight:600;"><?= $h['gratis'] ? '$0' : e(cop($h['precio'])) ?></td>
+            <td>
+              <?php if ($h['gratis']): ?>
+                <span class="badge badge-gratis">GRATIS</span>
+              <?php else: ?>
+                <form method="post" action="<?= e(url('/lavada/pago')) ?>" style="display:inline;"
+                      title="Clic para cambiar el estado de pago">
+                  <input type="hidden" name="id" value="<?= (int) $h['id'] ?>" />
+                  <?php if ($h['pagado']): ?>
+                    <button type="submit" class="btn btn-success" style="padding:4px 10px;font-size:12px;">
+                      <i class="fa-solid fa-circle-check"></i> Pagada
+                    </button>
+                  <?php else: ?>
+                    <button type="submit" class="btn btn-danger" style="padding:4px 10px;font-size:12px;">
+                      <i class="fa-solid fa-circle-exclamation"></i> Debe
+                    </button>
+                  <?php endif; ?>
+                </form>
+              <?php endif; ?>
+            </td>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
+  <?php if (empty($lavadasHoy)): ?>
+    <div style="text-align:center;padding:2rem;color:var(--texto2);">Aún no hay lavadas registradas hoy</div>
+  <?php endif; ?>
+</div>

@@ -46,6 +46,20 @@ class Lavada extends Model
         return (int) ($this->one('SELECT COUNT(*) c FROM lavadas')['c'] ?? 0);
     }
 
+    /** Alterna el estado de pago de una lavada (pagada <-> pendiente). Las gratis no cambian. */
+    public function alternarPago(int $id): void
+    {
+        $this->run('UPDATE lavadas SET pagado = 1 - pagado WHERE id = ? AND gratis = 0', [$id]);
+    }
+
+    /** Lavadas registradas hoy (más reciente primero). */
+    public function deHoy(): array
+    {
+        return $this->all(
+            'SELECT * FROM lavadas WHERE DATE(creado_en) = CURDATE() ORDER BY creado_en DESC'
+        );
+    }
+
     /** Lavadas registradas hoy. */
     public function contarHoy(): int
     {

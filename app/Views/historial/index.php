@@ -28,9 +28,24 @@
             <td style="font-size:12px;"><?= e($h['moto'] ?: '—') ?></td>
             <td style="font-weight:600;"><?= $h['gratis'] ? '$0' : e(cop($h['precio'])) ?></td>
             <td>
-              <span class="badge <?= $h['gratis'] ? 'badge-gratis' : 'badge-pagada' ?>">
-                <?= $h['gratis'] ? 'GRATIS' : 'Pagada' ?>
-              </span>
+              <?php if ($h['gratis']): ?>
+                <span class="badge badge-gratis">GRATIS</span>
+              <?php else: ?>
+                <form method="post" action="<?= e(url('/lavada/pago')) ?>" style="display:inline;"
+                      title="Clic para cambiar el estado de pago">
+                  <input type="hidden" name="id" value="<?= (int) $h['id'] ?>" />
+                  <input type="hidden" name="volver" value="historial" />
+                  <?php if ($h['pagado']): ?>
+                    <button type="submit" class="btn btn-success" style="padding:4px 10px;font-size:12px;">
+                      <i class="fa-solid fa-circle-check"></i> Pagada
+                    </button>
+                  <?php else: ?>
+                    <button type="submit" class="btn btn-danger" style="padding:4px 10px;font-size:12px;">
+                      <i class="fa-solid fa-circle-exclamation"></i> Debe
+                    </button>
+                  <?php endif; ?>
+                </form>
+              <?php endif; ?>
             </td>
             <td>
               <div style="display:flex; gap:6px;">

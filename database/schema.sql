@@ -36,6 +36,7 @@ CREATE TABLE IF NOT EXISTS lavadas (
   moto        VARCHAR(120) DEFAULT NULL,
   precio      INT UNSIGNED NOT NULL DEFAULT 0,
   gratis      TINYINT(1)   NOT NULL DEFAULT 0,
+  pagado      TINYINT(1)   NOT NULL DEFAULT 1,   -- 1 = pagada, 0 = pendiente (debe)
   num_lavada  INT UNSIGNED NOT NULL DEFAULT 0,
   creado_en   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),

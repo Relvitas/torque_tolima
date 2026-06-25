@@ -10,9 +10,12 @@ class LavadaController extends Controller
     /** Pantalla principal: formulario de nueva lavada. */
     public function index(): void
     {
+        $lavada = new Lavada();
         $this->view('lavada/index', [
-            'seccion'    => 'nueva',
-            'telPrefill' => $this->query('tel'),
+            'seccion'      => 'nueva',
+            'telPrefill'   => $this->query('tel'),
+            'lavadasHoy'   => $lavada->deHoy(),
+            'totalHoy'     => $lavada->ingresosHoy(),
         ]);
     }
 
@@ -88,6 +91,17 @@ class LavadaController extends Controller
             $this->flash("✓ Lavada registrada. Faltan {$faltan} para la gratis");
         }
         $this->redirect('/');
+    }
+
+    /** Alterna el estado de pago de una lavada (pagada <-> debe). */
+    public function pago(): void
+    {
+        $id = (int) $this->input('id', '0');
+        if ($id > 0) {
+            (new Lavada())->alternarPago($id);
+        }
+        $destino = $this->input('volver') === 'historial' ? '/historial' : '/';
+        $this->redirect($destino);
     }
 
     /** Guarda la foto subida y devuelve el nombre del archivo (o null). */
