@@ -46,6 +46,14 @@ class Lavada extends Model
         return (int) ($this->one('SELECT COUNT(*) c FROM lavadas')['c'] ?? 0);
     }
 
+    /** Lavadas registradas hoy. */
+    public function contarHoy(): int
+    {
+        return (int) ($this->one(
+            'SELECT COUNT(*) c FROM lavadas WHERE DATE(creado_en) = CURDATE()'
+        )['c'] ?? 0);
+    }
+
     /**
      * Elimina una lavada del historial y reajusta los contadores del cliente
      * (lavadas y, si era gratis, total_gratis) para mantener la consistencia.
@@ -70,6 +78,15 @@ class Lavada extends Model
     {
         return (int) ($this->one(
             'SELECT COALESCE(SUM(precio),0) s FROM lavadas WHERE gratis = 0'
+        )['s'] ?? 0);
+    }
+
+    /** Ingresos generados hoy. */
+    public function ingresosHoy(): int
+    {
+        return (int) ($this->one(
+            'SELECT COALESCE(SUM(precio),0) s FROM lavadas
+             WHERE gratis = 0 AND DATE(creado_en) = CURDATE()'
         )['s'] ?? 0);
     }
 

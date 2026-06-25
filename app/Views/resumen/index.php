@@ -1,13 +1,13 @@
 <?php
-/** @var int $totalLavadas @var int $totalClientes @var int $ingresos @var int $totalGratis
+/** @var int $lavadasHoy @var int $totalClientes @var int $ingresos @var int $totalGratis
  *  @var array $topClientes @var array $porTipo */
 ?>
 <div class="page-title">Resumen del negocio</div>
 
 <div class="stats-grid">
-  <div class="stat-card"><div class="stat-num"><?= (int) $totalLavadas ?></div><div class="stat-lbl">Total lavadas</div></div>
+  <div class="stat-card"><div class="stat-num"><?= (int) $lavadasHoy ?></div><div class="stat-lbl">Lavadas de hoy</div></div>
   <div class="stat-card"><div class="stat-num"><?= (int) $totalClientes ?></div><div class="stat-lbl">Clientes</div></div>
-  <div class="stat-card"><div class="stat-num">$<?= number_format($ingresos / 1000, 0, ',', '.') ?>k</div><div class="stat-lbl">Ingresos COP</div></div>
+  <div class="stat-card"><div class="stat-num" style="font-size:22px;"><?= e(cop($ingresos)) ?></div><div class="stat-lbl">Ingresos de hoy</div></div>
   <div class="stat-card"><div class="stat-num"><?= (int) $totalGratis ?></div><div class="stat-lbl">Lavadas gratis dadas</div></div>
 </div>
 

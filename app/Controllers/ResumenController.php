@@ -21,9 +21,9 @@ class ResumenController extends Controller
 
         $this->view('resumen/index', [
             'seccion'       => 'resumen',
-            'totalLavadas'  => $lavada->contar(),
+            'lavadasHoy'    => $lavada->contarHoy(),
             'totalClientes' => $cliente->contar(),
-            'ingresos'      => $lavada->ingresosTotales(),
+            'ingresos'      => $lavada->ingresosHoy(),
             'totalGratis'   => $lavada->totalGratis(),
             'topClientes'   => $cliente->top(6),
             'porTipo'       => $lavada->ingresosPorTipo(),
