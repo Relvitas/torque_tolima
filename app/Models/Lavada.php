@@ -46,6 +46,15 @@ class Lavada extends Model
         return (int) ($this->one('SELECT COUNT(*) c FROM lavadas')['c'] ?? 0);
     }
 
+    /** Cambia el valor (precio) de una lavada. No aplica a las gratis. */
+    public function actualizarPrecio(int $id, int $precio): void
+    {
+        $this->run(
+            'UPDATE lavadas SET precio = ? WHERE id = ? AND gratis = 0',
+            [max(0, $precio), $id]
+        );
+    }
+
     /** Alterna el estado de pago de una lavada (pagada <-> pendiente). Las gratis no cambian. */
     public function alternarPago(int $id): void
     {

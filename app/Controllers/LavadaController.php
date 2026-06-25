@@ -104,6 +104,18 @@ class LavadaController extends Controller
         $this->redirect($destino);
     }
 
+    /** Cambia el valor de una lavada del día. */
+    public function precio(): void
+    {
+        $id     = (int) $this->input('id', '0');
+        $precio = (int) preg_replace('/\D/', '', $this->input('precio', '0'));
+        if ($id > 0 && $precio > 0) {
+            (new Lavada())->actualizarPrecio($id, $precio);
+            $this->flash('Valor actualizado');
+        }
+        $this->redirect('/');
+    }
+
     /** Guarda la foto subida y devuelve el nombre del archivo (o null). */
     private function subirFoto(): ?string
     {

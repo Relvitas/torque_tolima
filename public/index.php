@@ -38,6 +38,7 @@ $router->get('/',                  [LavadaController::class,    'index']);
 $router->get('/lavada/buscar',     [LavadaController::class,    'buscar']);
 $router->post('/lavada/registrar', [LavadaController::class,    'registrar']);
 $router->post('/lavada/pago',      [LavadaController::class,    'pago']);
+$router->post('/lavada/precio',    [LavadaController::class,    'precio']);
 
 $router->get('/citas',             [CitaController::class,      'index']);
 $router->post('/citas/agendar',    [CitaController::class,      'agendar']);

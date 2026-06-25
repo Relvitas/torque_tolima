@@ -71,7 +71,17 @@
             </td>
             <td><?= e($h['placa'] ?: '—') ?></td>
             <td style="font-size:12px;"><?= e($h['moto'] ?: '—') ?></td>
-            <td style="font-weight:600;"><?= $h['gratis'] ? '$0' : e(cop($h['precio'])) ?></td>
+            <td style="font-weight:600; white-space:nowrap;">
+              <?php if ($h['gratis']): ?>
+                $0
+              <?php else: ?>
+                <?= e(cop($h['precio'])) ?>
+                <button type="button" class="btn btn-outline" style="padding:2px 8px;font-size:11px;margin-left:4px;"
+                        title="Editar valor" onclick="editarValorLavada(<?= (int) $h['id'] ?>, <?= (int) $h['precio'] ?>)">
+                  <i class="fa-solid fa-pen"></i>
+                </button>
+              <?php endif; ?>
+            </td>
             <td>
               <?php if ($h['gratis']): ?>
                 <span class="badge badge-gratis">GRATIS</span>
@@ -100,3 +110,9 @@
     <div style="text-align:center;padding:2rem;color:var(--texto2);">Aún no hay lavadas registradas hoy</div>
   <?php endif; ?>
 </div>
+
+<!-- Formulario oculto para editar el valor de una lavada -->
+<form method="post" action="<?= e(url('/lavada/precio')) ?>" id="form-editar-precio" style="display:none;">
+  <input type="hidden" name="id" id="ep-id" />
+  <input type="hidden" name="precio" id="ep-precio" />
+</form>

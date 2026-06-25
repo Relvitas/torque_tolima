@@ -27,6 +27,20 @@ function mostrarPrecio(p) {
   document.getElementById('precio-display').textContent = '$' + Number(p).toLocaleString('es-CO');
 }
 
+/* ===== LAVADA: editar valor de una lavada del día ===== */
+function editarValorLavada(id, actual) {
+  const v = prompt('Nuevo valor de la lavada (COP):', actual);
+  if (v === null) return;
+  const num = parseInt(String(v).replace(/\D/g, ''), 10);
+  if (!num || num <= 0) {
+    alert('Ingresa un valor válido mayor a 0');
+    return;
+  }
+  document.getElementById('ep-id').value = id;
+  document.getElementById('ep-precio').value = num;
+  document.getElementById('form-editar-precio').submit();
+}
+
 /* ===== LAVADA: foto preview ===== */
 function cargarFoto(input) {
   const file = input.files[0];
