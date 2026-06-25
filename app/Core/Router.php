@@ -26,7 +26,12 @@ class Router
     /** Resuelve la petición actual y despacha al controlador. */
     public function dispatch(string $method, string $uri): void
     {
-        $uri = $this->normalize(parse_url($uri, PHP_URL_PATH) ?: '/');
+        $path = parse_url($uri, PHP_URL_PATH) ?: '/';
+        // Descarta el prefijo del subdirectorio (BASE_URL) si lo hay.
+        if (BASE_URL !== '' && strpos($path, BASE_URL) === 0) {
+            $path = substr($path, strlen(BASE_URL));
+        }
+        $uri = $this->normalize($path);
 
         foreach ($this->routes[$method] ?? [] as $route => $handler) {
             // Convierte {param} en grupos de captura.

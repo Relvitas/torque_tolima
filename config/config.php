@@ -22,8 +22,17 @@ define('APP_PATH', BASE_PATH . '/app');
 define('VIEW_PATH', APP_PATH . '/Views');
 define('UPLOAD_PATH', BASE_PATH . '/public/uploads');
 
-// URL base del sitio (ajusta si lo sirves bajo un subdirectorio).
-define('BASE_URL', rtrim(getenv('BASE_URL') ?: '', '/'));
+// URL base del sitio. Se autodetecta para funcionar tanto en la raíz
+// (VirtualHost con DocumentRoot en public/) como en un subdirectorio
+// (ej. http://localhost/torque_tolima/public). Puedes forzarla con la
+// variable de entorno BASE_URL si lo necesitas.
+$baseUrlEnv = getenv('BASE_URL');
+if ($baseUrlEnv !== false) {
+    define('BASE_URL', rtrim($baseUrlEnv, '/'));
+} else {
+    $autoBase = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '')), '/');
+    define('BASE_URL', ($autoBase === '' || $autoBase === '/') ? '' : $autoBase);
+}
 
 // --- Negocio ---
 define('WA_NUM', '573153589152');          // WhatsApp del negocio
