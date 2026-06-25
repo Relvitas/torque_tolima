@@ -11,6 +11,34 @@
   <div class="stat-card"><div class="stat-num"><?= (int) $totalGratis ?></div><div class="stat-lbl">Lavadas gratis dadas</div></div>
 </div>
 
+<div class="card">
+  <div class="card-title"><i class="fa-solid fa-calendar-day"></i> Total generado por mes</div>
+  <div class="tabla-wrap">
+    <table>
+      <thead>
+        <tr><th>Mes</th><th>Lavadas</th><th>Gratis</th><th style="text-align:right;">Total generado</th></tr>
+      </thead>
+      <tbody>
+        <?php foreach ($porMes as $m):
+          $actual = ($m['mes'] === $mesActual); ?>
+          <tr<?= $actual ? ' style="background:var(--brand-claro);"' : '' ?>>
+            <td style="font-weight:600;">
+              <?= e(mes_label($m['mes'])) ?>
+              <?php if ($actual): ?><span class="badge badge-pagada">Mes actual</span><?php endif; ?>
+            </td>
+            <td><?= (int) $m['cantidad'] ?></td>
+            <td><?= (int) $m['gratis'] ?></td>
+            <td style="text-align:right;font-weight:700;"><?= e(cop($m['total'])) ?></td>
+          </tr>
+        <?php endforeach; ?>
+      </tbody>
+    </table>
+  </div>
+  <?php if (empty($porMes)): ?>
+    <div style="text-align:center;padding:2rem;color:var(--texto2);">Aún no hay lavadas registradas</div>
+  <?php endif; ?>
+</div>
+
 <div class="two-col">
   <div class="card">
     <div class="card-title"><i class="fa-solid fa-trophy"></i> Top clientes</div>

@@ -42,6 +42,22 @@ if (!function_exists('inicial')) {
     }
 }
 
+if (!function_exists('mes_label')) {
+    /** Convierte '2026-06' en 'Junio 2026'. */
+    function mes_label(string $ym): string
+    {
+        $meses = ['', 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+                  'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+        $partes = explode('-', $ym);
+        if (count($partes) !== 2) {
+            return $ym;
+        }
+        [$anio, $mes] = $partes;
+        $idx = (int) $mes;
+        return ($meses[$idx] ?? $mes) . ' ' . $anio;
+    }
+}
+
 if (!function_exists('is_active')) {
     /** Devuelve 'active' si la sección actual coincide. */
     function is_active(string $section, string $current): string

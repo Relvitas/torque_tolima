@@ -80,6 +80,20 @@ class Lavada extends Model
         )['c'] ?? 0);
     }
 
+    /** Total generado, cantidad y gratis agrupado por mes (más reciente primero). */
+    public function ingresosPorMes(): array
+    {
+        return $this->all(
+            "SELECT DATE_FORMAT(creado_en, '%Y-%m') AS mes,
+                    COUNT(*)                         AS cantidad,
+                    SUM(gratis)                      AS gratis,
+                    COALESCE(SUM(precio), 0)         AS total
+             FROM lavadas
+             GROUP BY mes
+             ORDER BY mes DESC"
+        );
+    }
+
     /** Conteo de lavadas pagadas agrupadas por precio. */
     public function ingresosPorTipo(): array
     {
