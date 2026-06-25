@@ -7,6 +7,7 @@ $nav = [
     'citas'     => ['url' => '/citas',     'icon' => 'fa-solid fa-calendar-days',  'label' => 'Citas',        'mlabel' => 'Citas'],
     'clientes'  => ['url' => '/clientes',  'icon' => 'fa-solid fa-users',          'label' => 'Clientes',     'mlabel' => 'Clientes'],
     'historial' => ['url' => '/historial', 'icon' => 'fa-solid fa-clipboard-list', 'label' => 'Historial',    'mlabel' => 'Historial'],
+    'egresos'   => ['url' => '/egresos',   'icon' => 'fa-solid fa-money-bill-trend-up', 'label' => 'Egresos', 'mlabel' => 'Egresos'],
     'resumen'   => ['url' => '/resumen',   'icon' => 'fa-solid fa-chart-column',   'label' => 'Resumen',      'mlabel' => 'Resumen'],
 ];
 $flash = $_SESSION['flash'] ?? '';

@@ -45,6 +45,18 @@ CREATE TABLE IF NOT EXISTS lavadas (
     REFERENCES clientes (id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+-- ---------- Egresos (gastos del negocio) ----------
+CREATE TABLE IF NOT EXISTS egresos (
+  id        INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  concepto  VARCHAR(160) NOT NULL,
+  categoria VARCHAR(60)  NOT NULL DEFAULT 'Otros',
+  monto     INT UNSIGNED NOT NULL DEFAULT 0,
+  nota      VARCHAR(255) DEFAULT NULL,
+  creado_en TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_fecha (creado_en)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- ---------- Citas ----------
 CREATE TABLE IF NOT EXISTS citas (
   id        INT UNSIGNED NOT NULL AUTO_INCREMENT,

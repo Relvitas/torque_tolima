@@ -27,6 +27,7 @@ use App\Controllers\LavadaController;
 use App\Controllers\CitaController;
 use App\Controllers\ClienteController;
 use App\Controllers\HistorialController;
+use App\Controllers\EgresoController;
 use App\Controllers\ResumenController;
 use App\Controllers\FacturaController;
 
@@ -45,6 +46,11 @@ $router->get('/clientes',          [ClienteController::class,   'index']);
 $router->post('/clientes/eliminar',[ClienteController::class,   'eliminar']);
 $router->get('/historial',         [HistorialController::class, 'index']);
 $router->post('/historial/eliminar',[HistorialController::class,'eliminar']);
+
+$router->get('/egresos',           [EgresoController::class,    'index']);
+$router->post('/egresos/registrar',[EgresoController::class,    'registrar']);
+$router->post('/egresos/eliminar', [EgresoController::class,    'eliminar']);
+
 $router->get('/resumen',           [ResumenController::class,   'index']);
 
 $router->get('/factura/{id}',      [FacturaController::class,   'show']);
