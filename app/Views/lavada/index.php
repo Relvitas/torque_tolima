@@ -5,7 +5,7 @@
       <div class="card">
         <div class="card-title">Datos del cliente</div>
         <label>Teléfono</label>
-        <input type="tel" id="telefono" name="telefono" placeholder="Ej: 3101234567" autocomplete="off" />
+        <input type="tel" id="telefono" name="telefono" placeholder="Ej: 3101234567" autocomplete="off" value="<?= e($telPrefill ?? '') ?>" />
         <div class="cliente-ok" id="cliente-ok"></div>
         <label>Nombre</label>
         <input type="text" id="nombre" name="nombre" placeholder="Nombre completo" />

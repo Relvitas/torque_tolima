@@ -10,7 +10,10 @@ class LavadaController extends Controller
     /** Pantalla principal: formulario de nueva lavada. */
     public function index(): void
     {
-        $this->view('lavada/index', ['seccion' => 'nueva']);
+        $this->view('lavada/index', [
+            'seccion'    => 'nueva',
+            'telPrefill' => $this->query('tel'),
+        ]);
     }
 
     /** Endpoint JSON para autocompletar al escribir el teléfono. */

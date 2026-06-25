@@ -50,27 +50,32 @@ function initLavada() {
     if (v > 0) mostrarPrecio(v);
   });
 
-  tel.addEventListener('input', async function () {
-    const div = document.getElementById('cliente-ok');
-    const cardP = document.getElementById('card-puntos');
-    if (this.value.length < 7) { div.style.display = 'none'; cardP.style.display = 'none'; return; }
+  tel.addEventListener('input', function () { buscarClientePorTel(this.value); });
 
-    try {
-      const res = await fetch('lavada/buscar?tel=' + encodeURIComponent(this.value));
-      const data = await res.json();
-      if (!data.encontrado) { div.style.display = 'none'; cardP.style.display = 'none'; return; }
+  // Si llega con un teléfono precargado (ej. desde "Clientes"), autocompleta.
+  if (tel.value.trim().length >= 7) buscarClientePorTel(tel.value.trim());
+}
 
-      const c = data.cliente;
-      document.getElementById('nombre').value = c.nombre || '';
-      document.getElementById('tipoMoto').value = c.moto || '';
-      document.getElementById('placa').value = c.placa || '';
-      if (c.foto) document.getElementById('fotoPreview').innerHTML = '<img src="' + c.foto + '" alt="moto" />';
+async function buscarClientePorTel(valor) {
+  const div = document.getElementById('cliente-ok');
+  const cardP = document.getElementById('card-puntos');
+  if (valor.length < 7) { div.style.display = 'none'; cardP.style.display = 'none'; return; }
 
-      div.textContent = '✓ Cliente encontrado: ' + c.nombre + ' | Lavadas este ciclo: ' + c.ciclo + '/5';
-      div.style.display = 'block';
-      actualizarPuntos(c);
-    } catch (e) { /* silencio: sin conexión, sigue como cliente nuevo */ }
-  });
+  try {
+    const res = await fetch('lavada/buscar?tel=' + encodeURIComponent(valor));
+    const data = await res.json();
+    if (!data.encontrado) { div.style.display = 'none'; cardP.style.display = 'none'; return; }
+
+    const c = data.cliente;
+    document.getElementById('nombre').value = c.nombre || '';
+    document.getElementById('tipoMoto').value = c.moto || '';
+    document.getElementById('placa').value = c.placa || '';
+    if (c.foto) document.getElementById('fotoPreview').innerHTML = '<img src="' + c.foto + '" alt="moto" />';
+
+    div.textContent = '✓ Cliente encontrado: ' + c.nombre + ' | Lavadas este ciclo: ' + c.ciclo + '/5';
+    div.style.display = 'block';
+    actualizarPuntos(c);
+  } catch (e) { /* silencio: sin conexión, sigue como cliente nuevo */ }
 }
 
 function actualizarPuntos(c) {

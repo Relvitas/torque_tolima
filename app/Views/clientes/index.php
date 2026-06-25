@@ -43,12 +43,17 @@
           Total: <?= (int) $c['lavadas'] ?> lavadas · Gratis ganadas: <?= (int) $c['total_gratis'] ?>
         </div>
       </div>
-      <form method="post" action="<?= e(url('/clientes/eliminar')) ?>"
-            onsubmit="return confirm('¿Eliminar este cliente? Se borrará también todo su historial de lavadas. Esta acción no se puede deshacer.');"
-            style="align-self:flex-start;">
-        <input type="hidden" name="id" value="<?= (int) $c['id'] ?>" />
-        <button type="submit" class="btn btn-danger" style="padding:6px 12px;font-size:12px;" title="Eliminar cliente"><i class="fa-solid fa-trash"></i></button>
-      </form>
+      <div style="display:flex; flex-direction:column; gap:6px; align-self:flex-start;">
+        <a class="btn btn-success" style="padding:6px 12px;font-size:12px;white-space:nowrap;"
+           href="<?= e(url('/?tel=' . urlencode($c['telefono']))) ?>" title="Registrar lavada para este cliente">
+          <i class="fa-solid fa-plus"></i> Lavada
+        </a>
+        <form method="post" action="<?= e(url('/clientes/eliminar')) ?>"
+              onsubmit="return confirm('¿Eliminar este cliente? Se borrará también todo su historial de lavadas. Esta acción no se puede deshacer.');">
+          <input type="hidden" name="id" value="<?= (int) $c['id'] ?>" />
+          <button type="submit" class="btn btn-danger" style="padding:6px 12px;font-size:12px;width:100%;" title="Eliminar cliente"><i class="fa-solid fa-trash"></i></button>
+        </form>
+      </div>
     </div>
   <?php endforeach; endif; ?>
 </div>
