@@ -79,7 +79,7 @@
                 <form method="post" action="<?= e(url('/lavada/pago')) ?>" style="display:inline;"
                       title="Clic para cambiar el estado de pago">
                   <input type="hidden" name="id" value="<?= (int) $h['id'] ?>" />
-                  <?php if ($h['pagado']): ?>
+                  <?php if ($h['pagado'] ?? 1): ?>
                     <button type="submit" class="btn btn-success" style="padding:4px 10px;font-size:12px;">
                       <i class="fa-solid fa-circle-check"></i> Pagada
                     </button>

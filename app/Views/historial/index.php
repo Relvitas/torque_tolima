@@ -35,7 +35,7 @@
                       title="Clic para cambiar el estado de pago">
                   <input type="hidden" name="id" value="<?= (int) $h['id'] ?>" />
                   <input type="hidden" name="volver" value="historial" />
-                  <?php if ($h['pagado']): ?>
+                  <?php if ($h['pagado'] ?? 1): ?>
                     <button type="submit" class="btn btn-success" style="padding:4px 10px;font-size:12px;">
                       <i class="fa-solid fa-circle-check"></i> Pagada
                     </button>
