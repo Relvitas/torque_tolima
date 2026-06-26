@@ -41,6 +41,19 @@ function editarValorLavada(id, actual) {
   document.getElementById('form-editar-precio').submit();
 }
 
+/* ===== LAVADA: avisar por WhatsApp que la moto está lista ===== */
+function avisarLavadaLista(tel, nombre) {
+  let num = String(tel).replace(/\D/g, '');
+  // Celular colombiano de 10 dígitos -> anteponer código de país 57.
+  if (num.length === 10 && num.charAt(0) === '3') {
+    num = '57' + num;
+  }
+  const msg = 'Hola ' + (nombre || '') + '! 🏍️\n\n' +
+    'Te informamos que la lavada de tu moto en Torque Tolima ya está lista. ✅\n' +
+    'Ya puedes pasar a recogerla.\n\n¡Gracias por tu preferencia!';
+  window.open('https://wa.me/' + num + '?text=' + encodeURIComponent(msg), '_blank');
+}
+
 /* ===== LAVADA: foto preview ===== */
 function cargarFoto(input) {
   const file = input.files[0];

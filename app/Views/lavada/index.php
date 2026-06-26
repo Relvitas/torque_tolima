@@ -59,7 +59,7 @@
   <div class="tabla-wrap">
     <table>
       <thead>
-        <tr><th>Hora</th><th>Cliente</th><th>Placa</th><th>Moto</th><th>Valor</th><th>Pago</th></tr>
+        <tr><th>Hora</th><th>Cliente</th><th>Placa</th><th>Moto</th><th>Valor</th><th>Acciones</th></tr>
       </thead>
       <tbody>
         <?php foreach ($lavadasHoy as $h): ?>
@@ -83,23 +83,30 @@
               <?php endif; ?>
             </td>
             <td>
-              <?php if ($h['gratis']): ?>
-                <span class="badge badge-gratis">GRATIS</span>
-              <?php else: ?>
-                <form method="post" action="<?= e(url('/lavada/pago')) ?>" style="display:inline;"
-                      title="Clic para cambiar el estado de pago">
-                  <input type="hidden" name="id" value="<?= (int) $h['id'] ?>" />
-                  <?php if ($h['pagado'] ?? 1): ?>
-                    <button type="submit" class="btn btn-success" style="padding:4px 10px;font-size:12px;">
-                      <i class="fa-solid fa-circle-check"></i> Pagada
-                    </button>
-                  <?php else: ?>
-                    <button type="submit" class="btn btn-danger" style="padding:4px 10px;font-size:12px;">
-                      <i class="fa-solid fa-circle-exclamation"></i> Debe
-                    </button>
-                  <?php endif; ?>
-                </form>
-              <?php endif; ?>
+              <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+                <?php if ($h['gratis']): ?>
+                  <span class="badge badge-gratis">GRATIS</span>
+                <?php else: ?>
+                  <form method="post" action="<?= e(url('/lavada/pago')) ?>" style="display:inline;"
+                        title="Clic para cambiar el estado de pago">
+                    <input type="hidden" name="id" value="<?= (int) $h['id'] ?>" />
+                    <?php if ($h['pagado'] ?? 1): ?>
+                      <button type="submit" class="btn btn-success" style="padding:4px 10px;font-size:12px;">
+                        <i class="fa-solid fa-circle-check"></i> Pagada
+                      </button>
+                    <?php else: ?>
+                      <button type="submit" class="btn btn-danger" style="padding:4px 10px;font-size:12px;">
+                        <i class="fa-solid fa-circle-exclamation"></i> Debe
+                      </button>
+                    <?php endif; ?>
+                  </form>
+                <?php endif; ?>
+                <button type="button" class="btn btn-wa" style="padding:4px 10px;font-size:12px;"
+                        onclick="avisarLavadaLista(<?= e(json_encode($h['telefono'])) ?>, <?= e(json_encode($h['nombre'])) ?>)"
+                        title="Avisar por WhatsApp que la moto está lista">
+                  <i class="fa-brands fa-whatsapp"></i> Lista
+                </button>
+              </div>
             </td>
           </tr>
         <?php endforeach; ?>
