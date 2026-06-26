@@ -8,14 +8,15 @@ class Lavada extends Model
     /** Inserta una lavada en el historial y devuelve su id. */
     public function crear(array $d): int
     {
+        // Las lavadas nuevas inician como pendientes (debe); las gratis quedan saldadas.
         $this->run(
             'INSERT INTO lavadas
-                (cliente_id, telefono, nombre, placa, moto, precio, gratis, num_lavada)
-             VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+                (cliente_id, telefono, nombre, placa, moto, precio, gratis, pagado, num_lavada)
+             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [
                 $d['cliente_id'], $d['telefono'], $d['nombre'],
                 $d['placa'], $d['moto'], $d['precio'],
-                $d['gratis'] ? 1 : 0, $d['num_lavada'],
+                $d['gratis'] ? 1 : 0, $d['gratis'] ? 1 : 0, $d['num_lavada'],
             ]
         );
         return (int) $this->db->lastInsertId();
