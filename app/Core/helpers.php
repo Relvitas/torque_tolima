@@ -19,6 +19,17 @@ if (!function_exists('url')) {
     }
 }
 
+if (!function_exists('asset')) {
+    /** URL de un asset de /public con cache-busting (?v=mtime). */
+    function asset(string $path): string
+    {
+        $rel  = ltrim($path, '/');
+        $file = BASE_PATH . '/public/' . $rel;
+        $ver  = is_file($file) ? filemtime($file) : null;
+        return url($rel) . ($ver ? '?v=' . $ver : '');
+    }
+}
+
 if (!function_exists('cop')) {
     /** Formatea un entero como pesos colombianos: 15000 -> $15.000 */
     function cop($value): string
