@@ -30,6 +30,8 @@ class ResumenController extends Controller
                 'cantidad' => (int) $m['cantidad'],
                 'gratis'   => (int) $m['gratis'],
                 'total'    => (int) $m['total'],
+                'efectivo' => (int) $m['efectivo'],
+                'nequi'    => (int) $m['nequi'],
                 'egresos'  => $eg,
                 'neto'     => (int) $m['total'] - $eg,
             ];
@@ -42,6 +44,8 @@ class ResumenController extends Controller
                     'cantidad' => 0,
                     'gratis'   => 0,
                     'total'    => 0,
+                    'efectivo' => 0,
+                    'nequi'    => 0,
                     'egresos'  => $eg,
                     'neto'     => -$eg,
                 ];
@@ -49,7 +53,7 @@ class ResumenController extends Controller
         }
         // Garantiza que el mes en curso siempre aparezca (aunque sin movimientos).
         if (!isset($porMes[$mesActual])) {
-            $porMes[$mesActual] = ['mes' => $mesActual, 'cantidad' => 0, 'gratis' => 0, 'total' => 0, 'egresos' => 0, 'neto' => 0];
+            $porMes[$mesActual] = ['mes' => $mesActual, 'cantidad' => 0, 'gratis' => 0, 'total' => 0, 'efectivo' => 0, 'nequi' => 0, 'egresos' => 0, 'neto' => 0];
         }
         // Ordena por mes descendente (más reciente primero).
         krsort($porMes);

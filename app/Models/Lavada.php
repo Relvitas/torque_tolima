@@ -139,7 +139,9 @@ class Lavada extends Model
             "SELECT DATE_FORMAT(creado_en, '%Y-%m') AS mes,
                     COUNT(*)                         AS cantidad,
                     SUM(gratis)                      AS gratis,
-                    COALESCE(SUM(precio), 0)         AS total
+                    COALESCE(SUM(precio), 0)         AS total,
+                    COALESCE(SUM(CASE WHEN pagado = 1 AND gratis = 0 AND metodo_pago = 'efectivo' THEN precio ELSE 0 END), 0) AS efectivo,
+                    COALESCE(SUM(CASE WHEN pagado = 1 AND gratis = 0 AND metodo_pago = 'nequi'    THEN precio ELSE 0 END), 0) AS nequi
              FROM lavadas
              GROUP BY mes
              ORDER BY mes DESC"

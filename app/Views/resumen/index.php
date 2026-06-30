@@ -19,6 +19,8 @@
         <tr>
           <th>Mes</th><th>Lavadas</th><th>Gratis</th>
           <th style="text-align:right;">Total generado</th>
+          <th style="text-align:right;">Efectivo</th>
+          <th style="text-align:right;">Nequi</th>
           <th style="text-align:right;">Egresos</th>
           <th style="text-align:right;">Utilidad neta</th>
         </tr>
@@ -34,6 +36,8 @@
             <td><?= (int) $m['cantidad'] ?></td>
             <td><?= (int) $m['gratis'] ?></td>
             <td style="text-align:right;font-weight:700;"><?= e(cop($m['total'])) ?></td>
+            <td style="text-align:right;color:#15803d;"><?= e(cop($m['efectivo'])) ?></td>
+            <td style="text-align:right;color:#6d28d9;"><?= e(cop($m['nequi'])) ?></td>
             <td style="text-align:right;color:var(--rojo, #dc2626);"><?= e(cop($m['egresos'])) ?></td>
             <td style="text-align:right;font-weight:700;color:<?= $m['neto'] < 0 ? 'var(--rojo, #dc2626)' : 'var(--verde, #16a34a)' ?>;"><?= e(cop($m['neto'])) ?></td>
           </tr>
