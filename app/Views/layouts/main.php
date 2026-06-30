@@ -30,16 +30,22 @@ unset($_SESSION['flash']);
 </head>
 <body>
 
-<div class="app-shell">
+<div class="app-shell" id="appShell">
+  <script>try{if(localStorage.getItem('tq_sidebar')==='1'){document.getElementById('appShell').classList.add('collapsed');}}catch(e){}</script>
   <aside class="sidebar">
-    <div class="sidebar-logo">
-      <h1><i class="fa-solid fa-motorcycle"></i> Torque Tolima</h1>
-      <p>Autolavado de motos</p>
+    <div class="sidebar-head">
+      <div class="sidebar-logo">
+        <h1><i class="fa-solid fa-motorcycle"></i> <span class="logo-text">Torque Tolima</span></h1>
+        <p class="logo-text">Autolavado de motos</p>
+      </div>
+      <button class="sidebar-toggle" type="button" onclick="toggleSidebar()" title="Contraer / expandir menú" aria-label="Contraer o expandir menú">
+        <i class="fa-solid fa-angles-left"></i>
+      </button>
     </div>
     <nav class="sidebar-nav">
       <?php foreach ($nav as $key => $item): ?>
-        <a class="nav-item <?= is_active($key, $seccion) ?>" href="<?= e(url($item['url'])) ?>">
-          <span class="nav-icon"><i class="<?= e($item['icon']) ?>"></i></span> <?= e($item['label']) ?>
+        <a class="nav-item <?= is_active($key, $seccion) ?>" href="<?= e(url($item['url'])) ?>" title="<?= e($item['label']) ?>">
+          <span class="nav-icon"><i class="<?= e($item['icon']) ?>"></i></span><span class="nav-label"><?= e($item['label']) ?></span>
         </a>
       <?php endforeach; ?>
     </nav>

@@ -6,6 +6,16 @@
 const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 const DIAS  = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
 
+/* ===== Sidebar colapsable ===== */
+function toggleSidebar() {
+  const shell = document.getElementById('appShell');
+  if (!shell) return;
+  shell.classList.toggle('collapsed');
+  try {
+    localStorage.setItem('tq_sidebar', shell.classList.contains('collapsed') ? '1' : '0');
+  } catch (e) { /* almacenamiento no disponible */ }
+}
+
 /* ===== LAVADA: selección de precio ===== */
 function seleccionarPrecio(precio, btn) {
   document.querySelectorAll('.precio-btn').forEach(b => b.classList.remove('selected'));
