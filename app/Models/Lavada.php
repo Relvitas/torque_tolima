@@ -62,6 +62,17 @@ class Lavada extends Model
         $this->run('UPDATE lavadas SET pagado = 1 - pagado WHERE id = ? AND gratis = 0', [$id]);
     }
 
+    /** Alterna el método de pago de una lavada pagada (efectivo <-> nequi). */
+    public function alternarMetodo(int $id): void
+    {
+        $this->run(
+            "UPDATE lavadas
+             SET metodo_pago = CASE WHEN metodo_pago = 'nequi' THEN 'efectivo' ELSE 'nequi' END
+             WHERE id = ? AND gratis = 0 AND pagado = 1",
+            [$id]
+        );
+    }
+
     /** Lavadas registradas hoy (más reciente primero). */
     public function deHoy(): array
     {

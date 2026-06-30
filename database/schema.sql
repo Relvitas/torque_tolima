@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS lavadas (
   precio      INT UNSIGNED NOT NULL DEFAULT 0,
   gratis      TINYINT(1)   NOT NULL DEFAULT 0,
   pagado      TINYINT(1)   NOT NULL DEFAULT 1,   -- 1 = pagada, 0 = pendiente (debe)
+  metodo_pago VARCHAR(10)  NOT NULL DEFAULT 'efectivo', -- efectivo | nequi
   num_lavada  INT UNSIGNED NOT NULL DEFAULT 0,
   creado_en   TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),

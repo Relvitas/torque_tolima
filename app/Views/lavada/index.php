@@ -100,6 +100,22 @@
                       </button>
                     <?php endif; ?>
                   </form>
+                  <?php if ($h['pagado'] ?? 1):
+                    $metodo = ($h['metodo_pago'] ?? 'efectivo') === 'nequi' ? 'nequi' : 'efectivo'; ?>
+                    <form method="post" action="<?= e(url('/lavada/metodo')) ?>" style="display:inline;"
+                          title="Clic para cambiar el método de pago">
+                      <input type="hidden" name="id" value="<?= (int) $h['id'] ?>" />
+                      <?php if ($metodo === 'nequi'): ?>
+                        <button type="submit" class="btn btn-outline" style="padding:4px 10px;font-size:12px;color:#6d28d9;border-color:#6d28d9;">
+                          <i class="fa-solid fa-mobile-screen-button"></i> Nequi
+                        </button>
+                      <?php else: ?>
+                        <button type="submit" class="btn btn-outline" style="padding:4px 10px;font-size:12px;color:#15803d;border-color:#15803d;">
+                          <i class="fa-solid fa-money-bill-wave"></i> Efectivo
+                        </button>
+                      <?php endif; ?>
+                    </form>
+                  <?php endif; ?>
                 <?php endif; ?>
                 <button type="button" class="btn btn-wa" style="padding:4px 10px;font-size:12px;"
                         onclick="avisarLavadaLista(<?= e(json_encode($h['telefono'])) ?>, <?= e(json_encode($h['nombre'])) ?>)"

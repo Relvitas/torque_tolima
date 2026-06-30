@@ -104,6 +104,17 @@ class LavadaController extends Controller
         $this->redirect($destino);
     }
 
+    /** Alterna el método de pago de una lavada (efectivo <-> nequi). */
+    public function metodo(): void
+    {
+        $id = (int) $this->input('id', '0');
+        if ($id > 0) {
+            (new Lavada())->alternarMetodo($id);
+        }
+        $destino = $this->input('volver') === 'historial' ? '/historial' : '/';
+        $this->redirect($destino);
+    }
+
     /** Cambia el valor de una lavada del día. */
     public function precio(): void
     {
