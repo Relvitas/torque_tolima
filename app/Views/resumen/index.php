@@ -4,11 +4,40 @@
 ?>
 <div class="page-title">Resumen del negocio</div>
 
+<?php
+$iconTend = ['up' => 'fa-arrow-trend-up', 'down' => 'fa-arrow-trend-down', 'flat' => 'fa-minus'];
+?>
 <div class="stats-grid">
-  <div class="stat-card"><div class="stat-num"><?= (int) $lavadasHoy ?></div><div class="stat-lbl">Lavadas de hoy</div></div>
-  <div class="stat-card"><div class="stat-num"><?= (int) $totalClientes ?></div><div class="stat-lbl">Clientes</div></div>
-  <div class="stat-card"><div class="stat-num" style="font-size:22px;"><?= e(cop($ingresos)) ?></div><div class="stat-lbl">Ingresos de hoy</div></div>
-  <div class="stat-card"><div class="stat-num"><?= (int) $totalGratis ?></div><div class="stat-lbl">Lavadas gratis dadas</div></div>
+  <div class="stat-card stat-card--blue">
+    <div class="stat-icon"><i class="fa-solid fa-motorcycle"></i></div>
+    <div class="stat-body">
+      <div class="stat-num"><?= (int) $lavadasHoy ?></div>
+      <div class="stat-lbl">Lavadas de hoy</div>
+      <span class="stat-trend stat-trend--<?= e($tendLavadas['dir']) ?>"><i class="fa-solid <?= e($iconTend[$tendLavadas['dir']]) ?>"></i> <?= e($tendLavadas['txt']) ?></span>
+    </div>
+  </div>
+  <div class="stat-card stat-card--green">
+    <div class="stat-icon"><i class="fa-solid fa-money-bill-wave"></i></div>
+    <div class="stat-body">
+      <div class="stat-num" style="font-size:22px;"><?= e(cop($ingresos)) ?></div>
+      <div class="stat-lbl">Ingresos de hoy</div>
+      <span class="stat-trend stat-trend--<?= e($tendIngresos['dir']) ?>"><i class="fa-solid <?= e($iconTend[$tendIngresos['dir']]) ?>"></i> <?= e($tendIngresos['txt']) ?></span>
+    </div>
+  </div>
+  <div class="stat-card stat-card--violet">
+    <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+    <div class="stat-body">
+      <div class="stat-num"><?= (int) $totalClientes ?></div>
+      <div class="stat-lbl">Clientes registrados</div>
+    </div>
+  </div>
+  <div class="stat-card stat-card--amber">
+    <div class="stat-icon"><i class="fa-solid fa-gift"></i></div>
+    <div class="stat-body">
+      <div class="stat-num"><?= (int) $totalGratis ?></div>
+      <div class="stat-lbl">Lavadas gratis dadas</div>
+    </div>
+  </div>
 </div>
 
 <div class="card">
@@ -37,7 +66,7 @@
             <td><?= (int) $m['gratis'] ?></td>
             <td style="text-align:right;font-weight:700;"><?= e(cop($m['total'])) ?></td>
             <td style="text-align:right;color:#15803d;"><?= e(cop($m['efectivo'])) ?></td>
-            <td style="text-align:right;color:#6d28d9;"><?= e(cop($m['nequi'])) ?></td>
+            <td style="text-align:right;color:#7c3aed;"><?= e(cop($m['nequi'])) ?></td>
             <td style="text-align:right;color:var(--rojo, #dc2626);"><?= e(cop($m['egresos'])) ?></td>
             <td style="text-align:right;font-weight:700;color:<?= $m['neto'] < 0 ? 'var(--rojo, #dc2626)' : 'var(--verde, #16a34a)' ?>;"><?= e(cop($m['neto'])) ?></td>
           </tr>

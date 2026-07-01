@@ -65,10 +65,28 @@ class ResumenController extends Controller
             'totalClientes' => $cliente->contar(),
             'ingresos'      => $lavada->ingresosHoy(),
             'totalGratis'   => $lavada->totalGratis(),
+            'tendLavadas'   => $this->tendencia($lavada->contarHoy(), $lavada->contarAyer()),
+            'tendIngresos'  => $this->tendencia($lavada->ingresosHoy(), $lavada->ingresosAyer()),
             'topClientes'   => $cliente->top(6),
             'porTipo'       => $lavada->ingresosPorTipo(),
             'porMes'        => $porMes,
             'mesActual'     => $mesActual,
         ]);
+    }
+
+    /**
+     * Compara el valor de hoy contra el de ayer y devuelve la dirección y
+     * el texto del indicador de tendencia ('up' | 'down' | 'flat').
+     */
+    private function tendencia(int $hoy, int $ayer): array
+    {
+        if ($ayer <= 0) {
+            return $hoy > 0
+                ? ['dir' => 'up', 'txt' => 'nuevo']
+                : ['dir' => 'flat', 'txt' => 'sin datos de ayer'];
+        }
+        $pct = (int) round(($hoy - $ayer) / $ayer * 100);
+        $dir = $pct > 0 ? 'up' : ($pct < 0 ? 'down' : 'flat');
+        return ['dir' => $dir, 'txt' => ($pct > 0 ? '+' : '') . $pct . '% vs ayer'];
     }
 }

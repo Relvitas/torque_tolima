@@ -73,6 +73,23 @@ class Lavada extends Model
         );
     }
 
+    /** Lavadas registradas ayer (para comparativos de tendencia). */
+    public function contarAyer(): int
+    {
+        return (int) ($this->one(
+            'SELECT COUNT(*) c FROM lavadas WHERE DATE(creado_en) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)'
+        )['c'] ?? 0);
+    }
+
+    /** Ingresos generados ayer. */
+    public function ingresosAyer(): int
+    {
+        return (int) ($this->one(
+            'SELECT COALESCE(SUM(precio),0) s FROM lavadas
+             WHERE gratis = 0 AND DATE(creado_en) = DATE_SUB(CURDATE(), INTERVAL 1 DAY)'
+        )['s'] ?? 0);
+    }
+
     /** Lavadas registradas hoy (más reciente primero). */
     public function deHoy(): array
     {

@@ -37,11 +37,11 @@
                     <input type="hidden" name="id" value="<?= (int) $h['id'] ?>" />
                     <input type="hidden" name="volver" value="historial" />
                     <?php if ($h['pagado'] ?? 1): ?>
-                      <button type="submit" class="btn btn-success" style="padding:4px 10px;font-size:12px;">
+                      <button type="submit" class="pill pill--pagada">
                         <i class="fa-solid fa-circle-check"></i> Pagada
                       </button>
                     <?php else: ?>
-                      <button type="submit" class="btn btn-danger" style="padding:4px 10px;font-size:12px;">
+                      <button type="submit" class="pill pill--debe">
                         <i class="fa-solid fa-circle-exclamation"></i> Debe
                       </button>
                     <?php endif; ?>
@@ -53,11 +53,11 @@
                       <input type="hidden" name="id" value="<?= (int) $h['id'] ?>" />
                       <input type="hidden" name="volver" value="historial" />
                       <?php if ($metodo === 'nequi'): ?>
-                        <button type="submit" class="btn btn-outline" style="padding:4px 10px;font-size:12px;color:#6d28d9;border-color:#6d28d9;">
+                        <button type="submit" class="pill pill--nequi">
                           <i class="fa-solid fa-mobile-screen-button"></i> Nequi
                         </button>
                       <?php else: ?>
-                        <button type="submit" class="btn btn-outline" style="padding:4px 10px;font-size:12px;color:#15803d;border-color:#15803d;">
+                        <button type="submit" class="pill pill--efectivo">
                           <i class="fa-solid fa-money-bill-wave"></i> Efectivo
                         </button>
                       <?php endif; ?>

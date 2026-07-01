@@ -5,9 +5,27 @@
 <div class="page-title">Egresos del negocio</div>
 
 <div class="stats-grid">
-  <div class="stat-card"><div class="stat-num" style="font-size:22px;"><?= e(cop($totalHoy)) ?></div><div class="stat-lbl">Egresos de hoy</div></div>
-  <div class="stat-card"><div class="stat-num" style="font-size:22px;"><?= e(cop($totalMes)) ?></div><div class="stat-lbl">Egresos de <?= e(mes_label($mes)) ?></div></div>
-  <div class="stat-card"><div class="stat-num"><?= count($egresos) ?></div><div class="stat-lbl">Movimientos del mes</div></div>
+  <div class="stat-card stat-card--red">
+    <div class="stat-icon"><i class="fa-solid fa-circle-minus"></i></div>
+    <div class="stat-body">
+      <div class="stat-num" style="font-size:22px;"><?= e(cop($totalHoy)) ?></div>
+      <div class="stat-lbl">Egresos de hoy</div>
+    </div>
+  </div>
+  <div class="stat-card stat-card--amber">
+    <div class="stat-icon"><i class="fa-solid fa-calendar-day"></i></div>
+    <div class="stat-body">
+      <div class="stat-num" style="font-size:22px;"><?= e(cop($totalMes)) ?></div>
+      <div class="stat-lbl">Egresos de <?= e(mes_label($mes)) ?></div>
+    </div>
+  </div>
+  <div class="stat-card stat-card--blue">
+    <div class="stat-icon"><i class="fa-solid fa-receipt"></i></div>
+    <div class="stat-body">
+      <div class="stat-num"><?= count($egresos) ?></div>
+      <div class="stat-lbl">Movimientos del mes</div>
+    </div>
+  </div>
 </div>
 
 <div class="two-col">
