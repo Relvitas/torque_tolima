@@ -74,7 +74,7 @@
 <div class="card">
   <div class="card-title"><i class="fa-solid fa-list"></i> Egresos de <?= e(mes_label($mes)) ?></div>
   <div class="tabla-wrap">
-    <table>
+    <table class="tabla-responsive">
       <thead>
         <tr>
           <th>Fecha</th><th>Concepto</th><th>Categoría</th><th>Monto</th><th>Acciones</th>
@@ -83,14 +83,14 @@
       <tbody>
         <?php foreach ($egresos as $eg): ?>
           <tr>
-            <td style="font-size:12px;color:var(--gris);"><?= e($eg['creado_en']) ?></td>
-            <td>
+            <td data-label="Fecha" style="font-size:12px;color:var(--gris);"><?= e($eg['creado_en']) ?></td>
+            <td data-label="Concepto">
               <strong><?= e($eg['concepto']) ?></strong>
               <?php if (!empty($eg['nota'])): ?><br><small style="color:var(--gris);"><?= e($eg['nota']) ?></small><?php endif; ?>
             </td>
-            <td><span class="badge badge-pagada"><?= e($eg['categoria']) ?></span></td>
-            <td style="font-weight:600;"><?= e(cop($eg['monto'])) ?></td>
-            <td>
+            <td data-label="Categoría"><span class="badge badge-pagada"><?= e($eg['categoria']) ?></span></td>
+            <td data-label="Monto" style="font-weight:600;"><?= e(cop($eg['monto'])) ?></td>
+            <td data-label="Acciones">
               <form method="post" action="<?= e(url('/egresos/eliminar')) ?>"
                     onsubmit="return confirm('¿Eliminar este egreso? Esta acción no se puede deshacer.');" style="display:inline;">
                 <input type="hidden" name="id" value="<?= (int) $eg['id'] ?>" />

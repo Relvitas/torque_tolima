@@ -36,4 +36,5 @@ if ($baseUrlEnv !== false) {
 
 // --- Negocio ---
 define('WA_NUM', '573153589152');          // WhatsApp del negocio
-define('LAVADAS_PARA_GRATIS', 6);            // Cada 6.ª lavada es gratis
+define('LAVADAS_PARA_GRATIS', 5);            // Cada 5.ª lavada otorga un giro gratis (la ruleta aparece en la 5.ª)
+define('RULETA_URL', 'https://app-sorteos.com/es/apps/la-ruleta-decide'); // Ruleta del premio de fidelidad

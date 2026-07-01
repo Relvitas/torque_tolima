@@ -18,6 +18,7 @@ function toggleSidebar() {
 
 /* ===== LAVADA: selección de precio ===== */
 function seleccionarPrecio(precio, btn) {
+  setLavadaGratis(false); // elegir un precio implica que NO es gratis
   document.querySelectorAll('.precio-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
   document.getElementById('precio').value = precio;
@@ -25,12 +26,45 @@ function seleccionarPrecio(precio, btn) {
   mostrarPrecio(precio);
 }
 function seleccionarPersonalizado(btn) {
+  setLavadaGratis(false);
   document.querySelectorAll('.precio-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
   document.getElementById('precio').value = 0;
   document.getElementById('inputPersonalizado').style.display = 'block';
   document.getElementById('resumen-lavada').style.display = 'none';
   document.getElementById('valorPersonalizado').focus();
+}
+
+/* ===== LAVADA: premio de fidelidad (lavada gratis por ruleta) ===== */
+function togglePremioBox(mostrar) {
+  const box = document.getElementById('premio-fidelidad');
+  if (!box) return;
+  box.style.display = mostrar ? 'block' : 'none';
+  if (!mostrar) setLavadaGratis(false);
+}
+function setLavadaGratis(on) {
+  const g = document.getElementById('gratis');
+  if (!g) return;
+  g.value = on ? '1' : '0';
+  const btn = document.getElementById('btn-lavada-gratis');
+  if (btn) {
+    btn.classList.toggle('premio-on', on);
+    btn.innerHTML = on
+      ? '<i class="fa-solid fa-circle-check"></i> Lavada gratis seleccionada'
+      : '<i class="fa-solid fa-gift"></i> Marcar LAVADA GRATIS';
+  }
+  if (on) {
+    document.querySelectorAll('.precio-btn').forEach(b => b.classList.remove('selected'));
+    document.getElementById('precio').value = 0;
+    document.getElementById('inputPersonalizado').style.display = 'none';
+    const rl = document.getElementById('resumen-lavada');
+    rl.style.display = 'block';
+    document.getElementById('precio-display').textContent = 'GRATIS 🎁';
+  }
+}
+function toggleLavadaGratis() {
+  const g = document.getElementById('gratis');
+  setLavadaGratis(g.value !== '1');
 }
 function mostrarPrecio(p) {
   document.getElementById('resumen-lavada').style.display = 'block';
@@ -96,12 +130,12 @@ function initLavada() {
 async function buscarClientePorTel(valor) {
   const div = document.getElementById('cliente-ok');
   const cardP = document.getElementById('card-puntos');
-  if (valor.length < 7) { div.style.display = 'none'; cardP.style.display = 'none'; return; }
+  if (valor.length < 7) { div.style.display = 'none'; cardP.style.display = 'none'; togglePremioBox(false); return; }
 
   try {
     const res = await fetch('lavada/buscar?tel=' + encodeURIComponent(valor));
     const data = await res.json();
-    if (!data.encontrado) { div.style.display = 'none'; cardP.style.display = 'none'; return; }
+    if (!data.encontrado) { div.style.display = 'none'; cardP.style.display = 'none'; togglePremioBox(false); return; }
 
     const c = data.cliente;
     document.getElementById('nombre').value = c.nombre || '';
@@ -109,7 +143,7 @@ async function buscarClientePorTel(valor) {
     document.getElementById('placa').value = c.placa || '';
     if (c.foto) document.getElementById('fotoPreview').innerHTML = '<img src="' + c.foto + '" alt="moto" />';
 
-    div.textContent = '✓ Cliente encontrado: ' + c.nombre + ' | Lavadas este ciclo: ' + c.ciclo + '/5';
+    div.textContent = '✓ Cliente encontrado: ' + c.nombre + ' | Lavadas este ciclo: ' + c.ciclo + '/' + ((window.TQ_META || 5) - 1);
     div.style.display = 'block';
     actualizarPuntos(c);
   } catch (e) { /* silencio: sin conexión, sigue como cliente nuevo */ }
@@ -120,13 +154,15 @@ function actualizarPuntos(c) {
   const bar  = document.getElementById('puntos-preview');
   const txt  = document.getElementById('puntos-texto');
   card.style.display = 'block';
+  const meta = (window.TQ_META || 5);
   const ciclo = c.ciclo;
   let html = '';
-  for (let i = 1; i <= 5; i++) html += '<div class="punto' + (i <= ciclo ? ' lleno' : '') + '">' + (i <= ciclo ? '<i class="fa-solid fa-check"></i>' : i) + '</div>';
+  for (let i = 1; i <= meta - 1; i++) html += '<div class="punto' + (i <= ciclo ? ' lleno' : '') + '">' + (i <= ciclo ? '<i class="fa-solid fa-check"></i>' : i) + '</div>';
   html += '<div class="punto estrella"><i class="fa-solid fa-star"></i></div>';
   bar.innerHTML = html;
-  if (ciclo === 0 && c.lavadas > 0) txt.textContent = '🎉 ¡Próxima lavada es GRATIS!';
-  else txt.textContent = 'Faltan ' + (5 - ciclo) + ' lavada(s) para la gratis';
+  if (c.premio) txt.textContent = '🎡 ¡Esta lavada es el PREMIO! Gira la ruleta.';
+  else txt.textContent = 'Faltan ' + ((meta - 1) - ciclo) + ' lavada(s) para el giro gratis';
+  togglePremioBox(!!c.premio);
 }
 
 /* ============================================================

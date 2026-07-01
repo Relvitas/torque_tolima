@@ -27,6 +27,21 @@
       <div class="card">
         <div class="card-title">Tipo de lavada</div>
         <input type="hidden" id="precio" name="precio" value="0" />
+        <input type="hidden" id="gratis" name="gratis" value="0" />
+
+        <div id="premio-fidelidad" class="premio-box" style="display:none;">
+          <div class="premio-head"><i class="fa-solid fa-dharmachakra"></i> ¡Premio de fidelidad disponible!</div>
+          <p>Gira la ruleta. Si el premio es <b>lavada gratis</b>, márcala abajo; si no, cobra el valor normal.</p>
+          <div class="premio-actions">
+            <a class="btn btn-primary" href="<?= e(RULETA_URL) ?>" target="_blank" rel="noopener">
+              <i class="fa-solid fa-dharmachakra"></i> Girar ruleta
+            </a>
+            <button type="button" id="btn-lavada-gratis" class="btn btn-outline" onclick="toggleLavadaGratis()">
+              <i class="fa-solid fa-gift"></i> Marcar LAVADA GRATIS
+            </button>
+          </div>
+        </div>
+
         <div class="precio-grid">
           <button type="button" class="precio-btn" onclick="seleccionarPrecio(12000,this)">$12.000<br><small>Básica</small></button>
           <button type="button" class="precio-btn" onclick="seleccionarPrecio(15000,this)">$15.000<br><small>Estándar</small></button>
@@ -57,21 +72,21 @@
     <span style="font-size:14px; color:var(--verde);">Total: <?= e(cop($totalHoy)) ?></span>
   </div>
   <div class="tabla-wrap">
-    <table>
+    <table class="tabla-responsive">
       <thead>
         <tr><th>Hora</th><th>Cliente</th><th>Placa</th><th>Moto</th><th>Valor</th><th>Acciones</th></tr>
       </thead>
       <tbody>
         <?php foreach ($lavadasHoy as $h): ?>
           <tr>
-            <td style="font-size:12px;color:var(--gris);"><?= e(date('H:i', strtotime($h['creado_en']))) ?></td>
-            <td>
+            <td data-label="Hora" style="font-size:12px;color:var(--gris);"><?= e(date('H:i', strtotime($h['creado_en']))) ?></td>
+            <td data-label="Cliente">
               <strong><?= e($h['nombre']) ?></strong><br>
               <small style="color:var(--gris);"><?= e($h['telefono']) ?></small>
             </td>
-            <td><?= e($h['placa'] ?: '—') ?></td>
-            <td style="font-size:12px;"><?= e($h['moto'] ?: '—') ?></td>
-            <td style="font-weight:600; white-space:nowrap;">
+            <td data-label="Placa"><?= e($h['placa'] ?: '—') ?></td>
+            <td data-label="Moto" style="font-size:12px;"><?= e($h['moto'] ?: '—') ?></td>
+            <td data-label="Valor" style="font-weight:600; white-space:nowrap;">
               <?php if ($h['gratis']): ?>
                 $0
               <?php else: ?>
@@ -82,10 +97,10 @@
                 </button>
               <?php endif; ?>
             </td>
-            <td>
-              <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+            <td data-label="Acciones">
+              <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap; justify-content:flex-end;">
                 <?php if ($h['gratis']): ?>
-                  <span class="badge badge-gratis">GRATIS</span>
+                  <span class="pill pill--gratis"><i class="fa-solid fa-gift"></i> Lavada gratis</span>
                 <?php else: ?>
                   <form method="post" action="<?= e(url('/lavada/pago')) ?>" style="display:inline;"
                         title="Clic para cambiar el estado de pago">
@@ -133,6 +148,8 @@
     <div style="text-align:center;padding:2rem;color:var(--texto2);">Aún no hay lavadas registradas hoy</div>
   <?php endif; ?>
 </div>
+
+<script>window.TQ_META = <?= (int) LAVADAS_PARA_GRATIS ?>;</script>
 
 <!-- Formulario oculto para editar el valor de una lavada -->
 <form method="post" action="<?= e(url('/lavada/precio')) ?>" id="form-editar-precio" style="display:none;">

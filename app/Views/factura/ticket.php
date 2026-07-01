@@ -44,14 +44,14 @@
   </table>
   <div style="border-top:1px dashed #000; margin:2mm 0;"></div>
   <table style="width:100%; font-size:12px; border-collapse:collapse;">
-    <tr><td><b>Servicio de lavado</b></td><td style="text-align:right;"><b><?= $l['gratis'] ? 'GRATIS 🎁' : e(cop($l['precio'])) ?></b></td></tr>
+    <tr><td><b><?= $l['gratis'] ? 'Lavada gratis (fidelidad)' : 'Servicio de lavado' ?></b></td><td style="text-align:right;"><b><?= $l['gratis'] ? 'GRATIS 🎁' : e(cop($l['precio'])) ?></b></td></tr>
     <tr class="total"><td>TOTAL:</td><td style="text-align:right;"><?= $l['gratis'] ? '$0' : e(cop($l['precio'])) ?></td></tr>
   </table>
   <div style="border-top:1px dashed #000; margin:3mm 0;"></div>
   <div style="text-align:center; font-size:11.5px;">
-    <?php if ($l['gratis']): ?>🎉 LAVADA GRATIS - Premio por fidelidad!<?php endif; ?>
+    <?php if ($l['gratis']): ?>🎉 LAVADA GRATIS - Premio de la ruleta!<?php endif; ?>
     <div style="margin-top:2mm;">Programa de fidelidad:</div>
-    <div>Cada <?= (int) $meta - 1 ?> lavadas, la <?= (int) $meta ?>.ª es GRATIS</div>
+    <div>Cada <?= (int) $meta ?> lavadas ganas un GIRO GRATIS</div>
     <div style="margin-top:3mm; font-weight:bold;">¡Gracias por su preferencia!</div>
     <div>Vuelva pronto 🏍️</div>
   </div>

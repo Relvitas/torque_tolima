@@ -40,6 +40,8 @@ class LavadaController extends Controller
                 'foto'    => $cliente['foto'] ? url('uploads/' . $cliente['foto']) : null,
                 'lavadas' => (int) $cliente['lavadas'],
                 'ciclo'   => $ciclo,
+                // La próxima lavada es la del premio (cada 6.ª): otorga un giro en la ruleta.
+                'premio'  => ($ciclo === LAVADAS_PARA_GRATIS - 1),
             ],
         ]);
     }
@@ -47,29 +49,36 @@ class LavadaController extends Controller
     /** Registra una nueva lavada. */
     public function registrar(): void
     {
-        $tel    = $this->input('telefono');
-        $nombre = $this->input('nombre');
-        $placa  = strtoupper($this->input('placa'));
-        $moto   = $this->input('tipoMoto');
-        $precio = (int) $this->input('precio', '0');
+        $tel          = $this->input('telefono');
+        $nombre       = $this->input('nombre');
+        $placa        = strtoupper($this->input('placa'));
+        $moto         = $this->input('tipoMoto');
+        $precio       = (int) $this->input('precio', '0');
+        $quiereGratis = $this->input('gratis') === '1';
 
         if ($tel === '' || $nombre === '') {
             $this->flash('Por favor ingresa teléfono y nombre');
             $this->redirect('/');
         }
-        if ($precio <= 0) {
+
+        $clienteModel = new Cliente();
+
+        // Elegibilidad del premio: esta lavada es la del giro (cada 6.ª).
+        $existente   = $clienteModel->porTelefono($tel);
+        $lavadasPrev = $existente ? (int) $existente['lavadas'] : 0;
+        $nuevoConteo = $lavadasPrev + 1;
+        $esPremio    = ($nuevoConteo % LAVADAS_PARA_GRATIS) === 0;
+        // Solo es gratis si es la lavada del premio Y la ruleta dio "lavada gratis".
+        $esGratis    = $esPremio && $quiereGratis;
+
+        // Si no es gratis, se exige un precio válido.
+        if (!$esGratis && $precio <= 0) {
             $this->flash('Selecciona el tipo de lavada');
             $this->redirect('/');
         }
 
-        $foto = $this->subirFoto();
-
-        $clienteModel = new Cliente();
+        $foto    = $this->subirFoto();
         $cliente = $clienteModel->guardarDatos($tel, $nombre, $placa, $moto, $foto);
-
-        // Calcula si esta lavada (la siguiente) es gratis.
-        $nuevoConteo = (int) $cliente['lavadas'] + 1;
-        $esGratis    = ($nuevoConteo % LAVADAS_PARA_GRATIS) === 0;
 
         $clienteModel->registrarLavadaContador((int) $cliente['id'], $esGratis);
 
@@ -85,10 +94,12 @@ class LavadaController extends Controller
         ]);
 
         if ($esGratis) {
-            $this->flash("🎉 ¡Lavada #{$nuevoConteo} GRATIS para {$nombre}!");
+            $this->flash("🎉 ¡Lavada GRATIS otorgada a {$nombre}!");
+        } elseif ($esPremio) {
+            $this->flash("✓ Lavada del premio registrada para {$nombre}");
         } else {
             $faltan = LAVADAS_PARA_GRATIS - ($nuevoConteo % LAVADAS_PARA_GRATIS);
-            $this->flash("✓ Lavada registrada. Faltan {$faltan} para la gratis");
+            $this->flash("✓ Lavada registrada. Faltan {$faltan} para el giro gratis");
         }
         $this->redirect('/');
     }

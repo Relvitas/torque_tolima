@@ -9,7 +9,7 @@
 
 <div class="card">
   <div class="tabla-wrap">
-    <table>
+    <table class="tabla-responsive">
       <thead>
         <tr>
           <th>Fecha</th><th>Cliente</th><th>Placa</th><th>Moto</th>
@@ -19,18 +19,18 @@
       <tbody>
         <?php foreach ($historial as $h): ?>
           <tr>
-            <td style="font-size:12px;color:var(--gris);"><?= e($h['creado_en']) ?></td>
-            <td>
+            <td data-label="Fecha" style="font-size:12px;color:var(--gris);"><?= e($h['creado_en']) ?></td>
+            <td data-label="Cliente">
               <strong><?= e($h['nombre']) ?></strong><br>
               <small style="color:var(--gris);"><?= e($h['telefono']) ?></small>
             </td>
-            <td><?= e($h['placa'] ?: '—') ?></td>
-            <td style="font-size:12px;"><?= e($h['moto'] ?: '—') ?></td>
-            <td style="font-weight:600;"><?= $h['gratis'] ? '$0' : e(cop($h['precio'])) ?></td>
-            <td>
-              <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap;">
+            <td data-label="Placa"><?= e($h['placa'] ?: '—') ?></td>
+            <td data-label="Moto" style="font-size:12px;"><?= e($h['moto'] ?: '—') ?></td>
+            <td data-label="Valor" style="font-weight:600;"><?= $h['gratis'] ? '$0' : e(cop($h['precio'])) ?></td>
+            <td data-label="Estado">
+              <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap; justify-content:flex-end;">
                 <?php if ($h['gratis']): ?>
-                  <span class="badge badge-gratis">GRATIS</span>
+                  <span class="pill pill--gratis"><i class="fa-solid fa-gift"></i> Lavada gratis</span>
                 <?php else: ?>
                   <form method="post" action="<?= e(url('/lavada/pago')) ?>" style="display:inline;"
                         title="Clic para cambiar el estado de pago">
@@ -66,8 +66,8 @@
                 <?php endif; ?>
               </div>
             </td>
-            <td>
-              <div style="display:flex; gap:6px;">
+            <td data-label="Acciones">
+              <div style="display:flex; gap:6px; justify-content:flex-end;">
                 <a class="btn btn-outline" style="padding:4px 10px;font-size:12px;"
                    href="<?= e(url('/factura/' . $h['id'])) ?>" target="_blank"><i class="fa-solid fa-print"></i> Imprimir</a>
                 <form method="post" action="<?= e(url('/historial/eliminar')) ?>"

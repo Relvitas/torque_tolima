@@ -43,7 +43,7 @@ $iconTend = ['up' => 'fa-arrow-trend-up', 'down' => 'fa-arrow-trend-down', 'flat
 <div class="card">
   <div class="card-title"><i class="fa-solid fa-calendar-day"></i> Total generado por mes</div>
   <div class="tabla-wrap">
-    <table>
+    <table class="tabla-responsive">
       <thead>
         <tr>
           <th>Mes</th><th>Lavadas</th><th>Gratis</th>
@@ -58,17 +58,17 @@ $iconTend = ['up' => 'fa-arrow-trend-up', 'down' => 'fa-arrow-trend-down', 'flat
         <?php foreach ($porMes as $m):
           $actual = ($m['mes'] === $mesActual); ?>
           <tr<?= $actual ? ' style="background:var(--brand-claro);"' : '' ?>>
-            <td style="font-weight:600;">
+            <td data-label="Mes" style="font-weight:600;">
               <?= e(mes_label($m['mes'])) ?>
               <?php if ($actual): ?><span class="badge badge-pagada">Mes actual</span><?php endif; ?>
             </td>
-            <td><?= (int) $m['cantidad'] ?></td>
-            <td><?= (int) $m['gratis'] ?></td>
-            <td style="text-align:right;font-weight:700;"><?= e(cop($m['total'])) ?></td>
-            <td style="text-align:right;color:#15803d;"><?= e(cop($m['efectivo'])) ?></td>
-            <td style="text-align:right;color:#7c3aed;"><?= e(cop($m['nequi'])) ?></td>
-            <td style="text-align:right;color:var(--rojo, #dc2626);"><?= e(cop($m['egresos'])) ?></td>
-            <td style="text-align:right;font-weight:700;color:<?= $m['neto'] < 0 ? 'var(--rojo, #dc2626)' : 'var(--verde, #16a34a)' ?>;"><?= e(cop($m['neto'])) ?></td>
+            <td data-label="Lavadas"><?= (int) $m['cantidad'] ?></td>
+            <td data-label="Gratis"><?= (int) $m['gratis'] ?></td>
+            <td data-label="Total generado" style="text-align:right;font-weight:700;"><?= e(cop($m['total'])) ?></td>
+            <td data-label="Efectivo" style="text-align:right;color:#15803d;"><?= e(cop($m['efectivo'])) ?></td>
+            <td data-label="Nequi" style="text-align:right;color:#7c3aed;"><?= e(cop($m['nequi'])) ?></td>
+            <td data-label="Egresos" style="text-align:right;color:var(--rojo, #dc2626);"><?= e(cop($m['egresos'])) ?></td>
+            <td data-label="Utilidad neta" style="text-align:right;font-weight:700;color:<?= $m['neto'] < 0 ? 'var(--rojo, #dc2626)' : 'var(--verde, #16a34a)' ?>;"><?= e(cop($m['neto'])) ?></td>
           </tr>
         <?php endforeach; ?>
       </tbody>

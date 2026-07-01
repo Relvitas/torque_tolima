@@ -14,7 +14,8 @@
     </div>
   <?php else: foreach ($clientes as $c):
     $ciclo = $c['lavadas'] % $meta;
-    $esGratis = ($ciclo === 0 && $c['lavadas'] > 0);
+    // La próxima lavada del cliente es la del premio (giro en la ruleta).
+    $giroDisponible = ($ciclo === $meta - 1);
   ?>
     <div class="cliente-card">
       <div class="avatar">
@@ -27,7 +28,7 @@
       <div style="flex:1">
         <div style="font-weight:600;">
           <?= e($c['nombre']) ?>
-          <?php if ($esGratis): ?><span class="badge badge-gratis"><i class="fa-solid fa-gift"></i> GRATIS!</span><?php endif; ?>
+          <?php if ($giroDisponible): ?><span class="badge badge-gratis"><i class="fa-solid fa-dharmachakra"></i> GIRO DISPONIBLE</span><?php endif; ?>
         </div>
         <div style="font-size:12px;color:var(--gris);">
           <?= e($c['telefono']) ?> · <?= e($c['placa'] ?: 'Sin placa') ?>
@@ -40,10 +41,16 @@
           <div class="punto estrella"><i class="fa-solid fa-star"></i></div>
         </div>
         <div style="font-size:11px;color:var(--gris);margin-top:4px;">
-          Total: <?= (int) $c['lavadas'] ?> lavadas · Gratis ganadas: <?= (int) $c['total_gratis'] ?>
+          Total: <?= (int) $c['lavadas'] ?> lavadas · Lavadas gratis: <?= (int) $c['total_gratis'] ?>
         </div>
       </div>
       <div style="display:flex; flex-direction:column; gap:6px; align-self:flex-start;">
+        <?php if ($giroDisponible): ?>
+          <a class="btn btn-primary" style="padding:6px 12px;font-size:12px;white-space:nowrap;"
+             href="<?= e(RULETA_URL) ?>" target="_blank" rel="noopener" title="Girar la ruleta del premio">
+            <i class="fa-solid fa-dharmachakra"></i> Girar ruleta
+          </a>
+        <?php endif; ?>
         <a class="btn btn-success" style="padding:6px 12px;font-size:12px;white-space:nowrap;"
            href="<?= e(url('/?tel=' . urlencode($c['telefono']))) ?>" title="Registrar lavada para este cliente">
           <i class="fa-solid fa-plus"></i> Lavada

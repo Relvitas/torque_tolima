@@ -388,6 +388,18 @@ tbody tr:hover td, tr:hover td { background: var(--gris-claro); }
 .modal-box h2 { font-size: 18px; font-weight: 800; margin-bottom: 1rem; }
 .modal-actions { display: flex; gap: 8px; margin-top: 1rem; justify-content: flex-end; }
 
+/* ===== PREMIO DE FIDELIDAD (bloque en el formulario) ===== */
+.premio-box {
+  margin-bottom: 1rem; padding: 1rem 1.1rem; border-radius: var(--radio-sm);
+  border: 1.5px dashed #c4b5fd;
+  background: linear-gradient(135deg, rgba(124,58,237,0.06), rgba(245,158,11,0.08));
+}
+.premio-head { font-size: 14px; font-weight: 800; color: #6d28d9; }
+.premio-box p { font-size: 12.5px; color: var(--texto2); margin: 6px 0 10px; }
+.premio-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.premio-actions .btn { padding: 9px 14px; font-size: 13px; }
+.btn.premio-on { background: var(--verde-claro); color: var(--verde); border-color: var(--verde); }
+
 /* ===== SEARCH ===== */
 .search-row { display: flex; gap: 10px; margin-bottom: 1.25rem; }
 .search-row input { flex: 1; }
@@ -395,3 +407,53 @@ tbody tr:hover td, tr:hover td { background: var(--gris-claro); }
 /* ===== GRID DOS COL ===== */
 .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: start; }
 @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+
+/* ============================================================
+   RESPONSIVE — ajustes para móvil / tablet
+   ============================================================ */
+
+/* Tablas que se transforman en tarjetas apiladas en pantallas chicas */
+@media (max-width: 680px) {
+  table.tabla-responsive { font-size: 13.5px; }
+  table.tabla-responsive thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  table.tabla-responsive tbody,
+  table.tabla-responsive tr,
+  table.tabla-responsive td { display: block; width: 100%; }
+  table.tabla-responsive tr {
+    border: 1px solid var(--gris-borde); border-radius: var(--radio-sm);
+    margin-bottom: 12px; padding: 4px 2px; background: var(--blanco);
+    box-shadow: var(--sombra-sm);
+  }
+  table.tabla-responsive tr:hover td { background: transparent; }
+  table.tabla-responsive td {
+    display: flex; align-items: center; justify-content: space-between; gap: 14px;
+    padding: 9px 14px; border-bottom: 1px dashed var(--gris-borde); text-align: right;
+  }
+  table.tabla-responsive tr td:last-child { border-bottom: none; }
+  table.tabla-responsive td::before {
+    content: attr(data-label); flex-shrink: 0; text-align: left;
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.03em; color: var(--texto2);
+  }
+  /* La celda de acciones ocupa toda la fila para que los botones respiren */
+  table.tabla-responsive td[data-label="Acciones"] { flex-wrap: wrap; }
+}
+
+/* Ajustes generales de móvil */
+@media (max-width: 768px) {
+  .page-title { font-size: 20px; margin-bottom: 1.1rem; }
+  .card { padding: 1.1rem; border-radius: var(--radio-sm); }
+  .stat-card { padding: 1.1rem; }
+  .stat-num { font-size: 24px; }
+  .stat-icon { width: 42px; height: 42px; font-size: 18px; }
+  /* La barra inferior con 6 secciones: permite desplazamiento si no caben */
+  .mobile-nav-inner { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .mob-nav-btn { min-width: 60px; }
+  .cliente-card { flex-wrap: wrap; }
+}
+
+/* Teléfonos muy angostos */
+@media (max-width: 380px) {
+  .stats-grid { grid-template-columns: 1fr; }
+  .mob-nav-btn { font-size: 9px; }
+}
